@@ -11,6 +11,9 @@ let dz = 2
 let angleY = 0
 let angleX = 0
 let angleZ = 0
+let camAngleY = 0
+let camAngleX = 0
+let camAngleZ = 0
 const dt = 1 / FPS
 const pressedKeys = {}
 const NEAR = 0.01
@@ -129,6 +132,25 @@ function handleEvents(){
   if (pressedKeys["v"]){
     angleZ -= dt * Math.PI
   }
+
+  if (pressedKeys["u"]){
+    camAngleY += dt * Math.PI
+  }
+  if (pressedKeys["y"]){
+    camAngleY -= dt * Math.PI
+  }
+  if (pressedKeys["j"]){
+    camAngleX += dt * Math.PI
+  }
+  if (pressedKeys["h"]){
+    camAngleX -= dt * Math.PI
+  }
+  if (pressedKeys["m"]){
+    camAngleZ += dt * Math.PI
+  }
+  if (pressedKeys["n"]){
+    camAngleZ -= dt * Math.PI
+  }
 }
 
 function clipLine(p1, p2){
@@ -188,9 +210,17 @@ function loop(){
       
       a = incrementPoint(a)
       b = incrementPoint(b)
+
+      a = rotateY(a, camAngleY)
+      a = rotateX(a, camAngleX)
+      a = rotateZ(a, camAngleZ)
+
+      b = rotateY(b, camAngleY)
+      b = rotateX(b, camAngleX)
+      b = rotateZ(b, camAngleZ)
+ 
       let newPoints = clipLine(a, b)
       if (!newPoints){
-        console.log(newPoints)
         continue
       }
       a = newPoints[0]
